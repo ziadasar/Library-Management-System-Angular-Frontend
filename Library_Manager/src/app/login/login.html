@@ -16,9 +16,10 @@
             </div>
 
             <!-- Password -->
-            <div class="mb-3 position-relative">
+            <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <div class="input-group">
+
+                <div class="input-group ">
                     <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
                         class="form-control" placeholder="*********"
                         [ngClass]="{ 'is-invalid': LoginForm.get('password')?.invalid && LoginForm.get('password')?.touched }" />
@@ -28,10 +29,16 @@
                     </button>
                 </div>
 
-                <div class="invalid-feedback d-block">
-                    <div *ngIf="LoginForm.get('password')?.errors?.['required']">Password is required.</div>
+                <!-- Move this outside the input-group -->
+                <div *ngIf="LoginForm.get('password')?.invalid && LoginForm.get('password')?.touched"
+                    class="invalid-feedback d-block">
+                    <div *ngIf="LoginForm.get('password')?.errors?.['required']">
+                        Password is required.
+                    </div>
+
                 </div>
             </div>
+
 
 
             <!-- Error Message -->
@@ -39,7 +46,7 @@
                 {{ errorMessage }}
             </div>
 
-            <!-- Submit (always enabled) -->
+
             <button type="submit" class="btn btn-primary w-100">
                 Login
             </button>

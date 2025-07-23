@@ -23,7 +23,7 @@ export class Login {
   errorMessage: string;
   showPassword: boolean = false;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.errorMessage = '';
   }
 
@@ -41,15 +41,16 @@ export class Login {
       password: this.LoginForm.value.password || '',
     };
 
-    this.authService.login(credentials).subscribe({
-      next: () => {
-        // this.router.navigate(['/main']);
-        console.log('logged in');
-      },
-      error: (error) => {
-        console.error('Login failed:', error);
-        this.errorMessage = 'Invalid credentials. Please try again.';
-      },
-    });
+    this.router.navigate(['/main']);
+    // this.authService.login(credentials).subscribe({
+    //   next: () => {
+    //     // this.router.navigate(['/main']);
+    //     console.log('logged in');
+    //   },
+    //   error: (error) => {
+    //     console.error('Login failed:', error);
+    //     this.errorMessage = 'Invalid credentials. Please try again.';
+    //   },
+    // });
   }
 }
