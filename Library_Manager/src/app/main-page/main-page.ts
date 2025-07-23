@@ -1,10 +1,11 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Navbar } from '../component/navbar/navbar';
 
 @Component({
   selector: 'app-main-page',
-  imports: [FormsModule, NgIf, NgFor],
+  imports: [FormsModule, NgIf, NgFor, Navbar],
   templateUrl: './main-page.html',
   styleUrl: './main-page.scss',
 })
