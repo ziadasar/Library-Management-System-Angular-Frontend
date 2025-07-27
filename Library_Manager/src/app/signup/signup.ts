@@ -6,7 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../core/services/auth';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +17,7 @@ import { RouterLink } from '@angular/router';
 })
 export class Signup {
   signupForm = new FormGroup({
-    userName: new FormControl('', [
+    username: new FormControl('', [
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(20),
@@ -33,7 +34,7 @@ export class Signup {
 
   errorMessage: string;
 
-  constructor() {
+  constructor(private router: Router, private authService: AuthService) {
     this.errorMessage = '';
   }
 
@@ -41,5 +42,14 @@ export class Signup {
     this.showPassword = !this.showPassword;
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.authService.signup(this.signupForm.value).subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (err: any) => {
+        console.error('Signup failed:', err);
+      },
+    });
+  }
 }

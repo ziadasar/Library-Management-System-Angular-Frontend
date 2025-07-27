@@ -32,19 +32,21 @@ export class Login {
   }
 
   onSubmit() {
+    console.log('Login form submitted:');
     if (this.LoginForm.invalid) {
       this.LoginForm.markAllAsTouched();
       return;
     }
 
     const credentials = {
-      userName: this.LoginForm.value.userName || '',
+      username: this.LoginForm.value.userName || '',
       password: this.LoginForm.value.password || '',
     };
 
     // Uncomment and use this actual login implementation
     this.authService.login(credentials).subscribe({
       next: (response) => {
+        console.log('Login successful:', response);
         // Assuming response contains a 'role' property
         const role = response.role?.toLowerCase(); // normalize case
 

@@ -1,9 +1,11 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../component/navbar/navbar';
 import { RouterOutlet } from '@angular/router';
 import { Sidebar } from '../component/sidebar/sidebar';
+
+import { BookService } from '../core/services/book-service';
 
 @Component({
   selector: 'app-main-page',
@@ -11,44 +13,19 @@ import { Sidebar } from '../component/sidebar/sidebar';
   templateUrl: './main-page.html',
   styleUrl: './main-page.scss',
 })
-export class MainPage {
-  searchTerm = '';
+export class MainPage implements OnInit {
+  searchTerm: any;
+  constructor(private bookService: BookService) {}
+
+  ngOnInit() {
+    this.bookService.getAllBooks().subscribe((books) => {
+      this.books = books;
+      console.log('Books loaded:', this.books);
+    });
+  }
+  books: any[] = [];
   selectedCategory = '';
   categories = ['Fiction', 'Science', 'Biography', 'History'];
-
-  books = [
-    {
-      title: '1984',
-      author: 'George Orwell',
-      image: 'assets/books/1984.jpg',
-      category: 'Fiction',
-    },
-    {
-      title: 'A Brief History of Time',
-      author: 'Stephen Hawking',
-      image: 'assets/books/brief-history.jpg',
-      category: 'Science',
-    },
-    {
-      title: 'A Brief History of Time',
-      author: 'Stephen Hawking',
-      image: 'assets/books/brief-history.jpg',
-      category: 'Science',
-    },
-    {
-      title: 'A Brief History of Time',
-      author: 'Stephen Hawking',
-      image: 'assets/books/brief-history.jpg',
-      category: 'Science',
-    },
-    {
-      title: 'A Brief History of Time',
-      author: 'Stephen Hawking',
-      image: 'assets/books/brief-history.jpg',
-      category: 'Science',
-    },
-    // add more books here
-  ];
 
   get filteredBooks() {
     return this.books.filter(

@@ -33,16 +33,16 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminMainPage,
-    // canActivate: [AuthGuard, RoleGuard],
-    // data: {
-    //   roles: ['admin'], // Admin only
-    // },
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      roles: ['admin'], // Admin only
+    },
   },
   {
     path: 'librarian',
     component: LibrarianMainPage,
-    // canActivate: [AuthGuard, RoleGuard],
-    // data: { roles: ['librarian', 'admin'] }, // Both librarians and admins can access
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['librarian', 'admin'] }, // Both librarians and admins can access
   },
   {
     path: 'unauthorized',
