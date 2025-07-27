@@ -36,21 +36,36 @@ export class Login {
       this.LoginForm.markAllAsTouched();
       return;
     }
+
     const credentials = {
       userName: this.LoginForm.value.userName || '',
       password: this.LoginForm.value.password || '',
     };
 
-    this.router.navigate(['/main']);
-    // this.authService.login(credentials).subscribe({
-    //   next: () => {
-    //     // this.router.navigate(['/main']);
-    //     console.log('logged in');
-    //   },
-    //   error: (error) => {
-    //     console.error('Login failed:', error);
-    //     this.errorMessage = 'Invalid credentials. Please try again.';
-    //   },
-    // });
+    // Uncomment and use this actual login implementation
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
+        // Assuming response contains a 'role' property
+        const role = response.role?.toLowerCase(); // normalize case
+
+        switch (role) {
+          case 'admin':
+            this.router.navigate(['/admin-dashboard']);
+            break;
+          case 'librarian':
+            this.router.navigate(['/librarian-dashboard']);
+            break;
+          default:
+            this.router.navigate(['/main']);
+        }
+      },
+      error: (error) => {
+        console.error('Login failed:', error);
+        this.errorMessage = 'Invalid credentials. Please try again.';
+      },
+    });
+
+    // Remove this temporary navigation
+    // this.router.navigate(['/main']);
   }
 }

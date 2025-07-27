@@ -1,0 +1,55 @@
+<!-- admin-dashboard.component.html -->
+<div class="admin-container">
+    <h1>Admin Dashboard</h1>
+
+    <div class="tabs">
+        <button (click)="selectedTab = 'books'" [class.active]="selectedTab === 'books'">Manage Books</button>
+        <button (click)="selectedTab = 'users'" [class.active]="selectedTab === 'users'">Manage Users</button>
+    </div>
+
+    <!-- Books Management -->
+    <div *ngIf="selectedTab === 'books'" class="tab-content">
+        <h2>Add New Book</h2>
+        <div class="add-book-form">
+            <input [(ngModel)]="newBook.title" placeholder="Title">
+            <input [(ngModel)]="newBook.author" placeholder="Author">
+            <input [(ngModel)]="newBook.category" placeholder="Category">
+            <input [(ngModel)]="newBook.image" placeholder="Image URL">
+            <button (click)="addBook()">Add Book</button>
+        </div>
+
+        <h2>Book List</h2>
+        <div class="book-list">
+            <div *ngFor="let book of books" class="book-card">
+                <div class="book-info">
+                    <h3>{{ book.title }}</h3>
+                    <p>by {{ book.author }}</p>
+                    <span class="category">{{ book.category }}</span>
+                </div>
+                <div class="book-actions">
+                    <button (click)="updateBook(book)">Edit</button>
+                    <button class="delete" (click)="deleteBook(book.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Management -->
+    <div *ngIf="selectedTab === 'users'" class="tab-content">
+        <h2>User List</h2>
+        <div class="user-list">
+            <div *ngFor="let user of users" class="user-card">
+                <div class="user-info">
+                    <h3>{{ user.username }}</h3>
+                    <p>Current Role: {{ user.role }}</p>
+                </div>
+                <div class="user-actions">
+                    <select [(ngModel)]="user.role" (change)="updateUserRole(user, user.role)">
+                        <option value="user">User</option>
+                        <option value="librarian">Librarian</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

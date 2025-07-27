@@ -58,6 +58,16 @@ export class MainPage {
           book.category === this.selectedCategory)
     );
   }
+  borrowBook(book: any) {
+    if (!book.borrowed) {
+      book.borrowed = true;
+      alert(`You've borrowed "${book.title}"`);
+      // Here you would typically:
+      // 1. Call a service to update backend
+      // 2. Update local state
+      // 3. Show a toast notification
+    }
+  }
 
   viewDetails(book: any) {
     console.log('Viewing details for:', book);
