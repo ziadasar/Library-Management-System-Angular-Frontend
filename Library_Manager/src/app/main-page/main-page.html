@@ -1,1 +1,12 @@
 <app-navbar></app-navbar>
+<!-- <router-outlet></router-outlet> -->
+<div class="books-container">
+    <div *ngFor="let book of books" class="book-card">
+        <!-- <img [src]="book.image" [alt]="book.title" class="book-image"> -->
+        <div class="book-details">
+            <h3 class="book-title">{{ book.title }}</h3>
+            <p class="book-author">{{ book.author }}</p>
+            <span class="book-category">{{ book.category }}</span>
+        </div>
+    </div>
+</div>
