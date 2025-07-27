@@ -50,10 +50,10 @@ export class Login {
 
         switch (role) {
           case 'admin':
-            this.router.navigate(['/admin-dashboard']);
+            this.router.navigate(['/admin']);
             break;
           case 'librarian':
-            this.router.navigate(['/librarian-dashboard']);
+            this.router.navigate(['/librarian']);
             break;
           default:
             this.router.navigate(['/main']);
