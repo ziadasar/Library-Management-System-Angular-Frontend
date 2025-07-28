@@ -1,4 +1,3 @@
-<!-- admin-dashboard.component.html -->
 <div class="admin-container">
     <h1>Admin Dashboard</h1>
 
@@ -9,29 +8,8 @@
 
     <!-- Books Management -->
     <div *ngIf="selectedTab === 'books'" class="tab-content">
-        <h2>Add New Book</h2>
-        <div class="add-book-form">
-            <input [(ngModel)]="newBook.title" placeholder="Title">
-            <input [(ngModel)]="newBook.author" placeholder="Author">
-            <input [(ngModel)]="newBook.category" placeholder="Category">
-            <input [(ngModel)]="newBook.image" placeholder="Image URL">
-            <button (click)="addBook()">Add Book</button>
-        </div>
-
-        <h2>Book List</h2>
-        <div class="book-list">
-            <div *ngFor="let book of books" class="book-card">
-                <div class="book-info">
-                    <h3>{{ book.title }}</h3>
-                    <p>by {{ book.author }}</p>
-                    <span class="category">{{ book.category }}</span>
-                </div>
-                <div class="book-actions">
-                    <button (click)="updateBook(book)">Edit</button>
-                    <button class="delete" (click)="deleteBook(book.id)">Delete</button>
-                </div>
-            </div>
-        </div>
+        <app-manage-books>
+        </app-manage-books>
     </div>
 
     <!-- Users Management -->

@@ -1,91 +1,190 @@
-// admin-dashboard.component.scss
 .admin-container {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #ddd;
+
+  button {
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 1rem;
+
+    &.active {
+      border-bottom: 2px solid #3f51b5;
+      font-weight: bold;
+    }
   }
-  
-  .tabs {
+}
+
+.tab-content {
+  margin-top: 1rem;
+}
+
+.add-book-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  input, textarea, select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  textarea {
+    grid-column: 1 / -1;
+    min-height: 100px;
+  }
+
+  .form-actions {
+    grid-column: 1 / -1;
     display: flex;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid #ddd;
-  
+    gap: 1rem;
+
     button {
       padding: 0.5rem 1rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      margin-right: 1rem;
-  
-      &.active {
-        border-bottom: 2px solid #3f51b5;
-        font-weight: bold;
-      }
-    }
-  }
-  
-  .tab-content {
-    margin-top: 1rem;
-  }
-  
-  .add-book-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-  
-    input {
-      padding: 0.5rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-  
-    button {
-      grid-column: 1 / -1;
-      padding: 0.5rem;
       background: #3f51b5;
       color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-    }
-  }
-  
-  .book-list, .user-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-  }
-  
-  .book-card, .user-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-  
-    .book-actions, .user-actions {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-  
-      button {
-        padding: 0.25rem 0.5rem;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-  
-        &.delete {
-          background: #f44336;
-          color: white;
-        }
+
+      &.cancel {
+        background: #f0f0f0;
+        color: #333;
       }
     }
   }
-  
-  .category {
-    background: #e0e0e0;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
+}
+
+.book-list, .user-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.book-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
+  .book-cover {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .book-info {
+    flex-grow: 1;
+
+    h3 {
+      margin: 0 0 0.5rem 0;
+    }
+
+    .description {
+      color: #666;
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .book-meta {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .book-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+
+    button {
+      padding: 0.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      flex: 1;
+
+      &.delete {
+        background: #f44336;
+        color: white;
+      }
+    }
+  }
+}
+
+.user-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .user-actions select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+}
+
+.category {
+  background: #e0e0e0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+
+  &.available {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.borrowed {
+    background: #fff3e0;
+    color: #e65100;
+  }
+
+  &.reserved {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+}
+
+@media (max-width: 768px) {
+  .add-book-form {
+    grid-template-columns: 1fr;
+  }
+
+  .book-list, .user-list {
+    grid-template-columns: 1fr;
+  }
+}

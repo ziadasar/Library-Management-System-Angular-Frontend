@@ -7,6 +7,7 @@ import { AuthGuard } from './core/services/auth-gaurd';
 import { RoleGuard } from './core/services/role-gaurd';
 import { Unauthorized } from './component/unauthorized/unauthorized';
 import { LibrarianMainPage } from './librarian-main-page/librarian-main-page';
+import { EditBooks } from './component/edit-books/edit-books';
 
 export const routes: Routes = [
   {
@@ -33,16 +34,22 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminMainPage,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {
-      roles: ['admin'], // Admin only
-    },
+    // canActivate: [AuthGuard, RoleGuard],
+    // data: {
+    //   roles: ['admin'], // Admin only
+    // },
   },
   {
     path: 'librarian',
     component: LibrarianMainPage,
-    canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['librarian', 'admin'] }, // Both librarians and admins can access
+    // canActivate: [AuthGuard, RoleGuard],
+    // data: { roles: ['librarian', 'admin'] }, // Both librarians and admins can access
+  },
+  {
+    path: 'edit-book/:id',
+    component: EditBooks,
+    // canActivate: [AuthGuard, RoleGuard],
+    // data: { roles: ['librarian', 'admin'] },
   },
   {
     path: 'unauthorized',

@@ -1,0 +1,48 @@
+<div class="librarian-container">
+    <h1>Librarian Dashboard</h1>
+
+    <div class="book-management">
+
+        <div class="add-book-form">
+            <input [(ngModel)]="newBook.title" placeholder="Title" required>
+            <input [(ngModel)]="newBook.author" placeholder="Author" required>
+            <textarea [(ngModel)]="newBook.description" placeholder="Description" required></textarea>
+            <input [(ngModel)]="newBook.category" placeholder="Category" required>
+            <input [(ngModel)]="newBook.coverImageUrl" placeholder="Cover Image URL" required>
+
+            <select [(ngModel)]="newBook.bookStatus" required>
+                <option *ngFor="let status of bookStatusOptions" [value]="status.value">
+                    {{ status.label }}
+                </option>
+            </select>
+
+
+        </div>
+
+        <h2>Book List</h2>
+        <div class="book-list">
+            <div *ngFor="let book of books" class="book-card">
+                <img [src]="book.coverImageUrl" [alt]="book.title" class="book-cover">
+                <div class="book-info">
+                    <h3>{{ book.title }}</h3>
+                    <p>by {{ book.author }}</p>
+                    <p class="description">{{ book.description }}</p>
+                    <div class="book-meta">
+                        <span class="category">{{ book.category }}</span>
+                        <span class="status" [ngClass]="{
+                'available': book.bookStatus === 0,
+                'borrowed': book.bookStatus === 1,
+                'reserved': book.bookStatus === 2
+              }">
+                            {{ bookStatusOptions[book.bookStatus].label }}
+                        </span>
+                    </div>
+                </div>
+                <div class="book-actions">
+                    <button (click)="startEdit(book)">Edit</button>
+                    <button class="delete" (click)="deleteBook(book.id!)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
