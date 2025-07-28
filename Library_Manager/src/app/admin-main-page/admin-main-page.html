@@ -8,17 +8,59 @@
 
     <!-- Books Management -->
     <div *ngIf="selectedTab === 'books'" class="tab-content">
-        <app-manage-books>
-        </app-manage-books>
+        <app-manage-books></app-manage-books>
     </div>
 
     <!-- Users Management -->
     <div *ngIf="selectedTab === 'users'" class="tab-content">
-        <h2>User List</h2>
+        <div class="user-management-header">
+            <h2>User Management</h2>
+            <button class="btn btn-primary" (click)="showCreateUserForm = true">Add New User</button>
+        </div>
+
+        <!-- Search Users -->
+        <div class="search-container">
+            <input type="text" [(ngModel)]="searchUsername" placeholder="Search by username" (input)="searchUsers()">
+            <button class="btn btn-secondary" (click)="clearSearch()">Clear</button>
+        </div>
+
+        <!-- Create User Form -->
+        <div *ngIf="showCreateUserForm" class="create-user-form">
+            <h3>Create New User</h3>
+            <form (ngSubmit)="createUser()">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" [(ngModel)]="newUser.username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" [(ngModel)]="newUser.email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" [(ngModel)]="newUser.password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select [(ngModel)]="newUser.role" name="role">
+                        <option value="User">User</option>
+                        <option value="Librarian">Librarian</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" (click)="cancelCreateUser()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create User</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- User List -->
         <div class="user-list">
-            <div *ngFor="let user of users" class="user-card">
+            <div *ngFor="let user of filteredUsers" class="user-card">
                 <div class="user-info">
                     <h3>{{ user.username }}</h3>
+                    <p>Email: {{ user.email }}</p>
                     <p>Current Role: {{ user.role }}</p>
                 </div>
                 <div class="user-actions">
@@ -26,6 +68,7 @@
                         <option value="user">User</option>
                         <option value="librarian">Librarian</option>
                     </select>
+                    <button class="btn btn-danger" (click)="deleteUser(user.id)">Delete</button>
                 </div>
             </div>
         </div>

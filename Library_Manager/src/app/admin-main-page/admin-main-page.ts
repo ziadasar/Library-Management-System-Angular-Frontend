@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { UserService } from '../core/services/user-service';
 import { BookService } from '../core/services/book-service';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Book, BookStatus, BookStatusOptions } from '../core/models/book.model';
+import { Book, BookStatus } from '../core/models/book.model';
 import { ManageBooks } from '../component/manage-books/manage-books';
 
 @Component({
@@ -14,20 +14,21 @@ import { ManageBooks } from '../component/manage-books/manage-books';
   styleUrl: './admin-main-page.scss',
 })
 export class AdminMainPage {
+  // Books properties
   books: Book[] = [];
-  users: any[] = [];
   selectedTab: 'books' | 'users' = 'books';
-  isEditing = false;
-  currentBookId: string | null = null;
-  bookStatusOptions = BookStatusOptions;
 
-  newBook: Book = {
-    title: '',
-    author: '',
-    description: '',
-    category: '',
-    coverImageUrl: '',
-    bookStatus: BookStatus.Available,
+  // Users properties
+  users: any[] = [];
+  filteredUsers: any[] = [];
+  searchUsername: string = '';
+  showCreateUserForm: boolean = false;
+
+  newUser = {
+    username: '',
+    email: '',
+    password: '',
+    role: 'user',
   };
 
   constructor(
@@ -38,65 +39,67 @@ export class AdminMainPage {
     this.loadUsers();
   }
 
+  // Books methods (keep existing)
   loadBooks() {
     this.bookService.getAllBooks().subscribe((books) => {
       this.books = books;
     });
   }
 
+  // Users methods
   loadUsers() {
     this.userService.getAllUsers().subscribe((users) => {
       this.users = users.filter((u) => u.role !== 'admin');
+      this.filteredUsers = [...this.users];
     });
   }
 
-  addBook() {
-    this.bookService.addBook(this.newBook).subscribe({
-      next: () => {
-        this.loadBooks();
-        this.resetBookForm();
-      },
-      error: (err) => console.error('Error adding book:', err),
-    });
-  }
-
-  startEdit(book: Book) {
-    this.isEditing = true;
-    this.currentBookId = book.id || null;
-    this.newBook = { ...book };
-  }
-
-  updateBook() {
-    if (!this.currentBookId) return;
-
-    this.bookService.updateBook(this.currentBookId, this.newBook).subscribe({
-      next: () => {
-        this.loadBooks();
-        this.resetBookForm();
-      },
-      error: (err) => console.error('Error updating book:', err),
-    });
-  }
-
-  deleteBook(id: string) {
-    if (confirm('Are you sure you want to delete this book?')) {
-      this.bookService.deleteBook(id).subscribe({
-        next: () => this.loadBooks(),
-        error: (err) => console.error('Error deleting book:', err),
-      });
+  searchUsers() {
+    if (!this.searchUsername) {
+      this.filteredUsers = [...this.users];
+      return;
     }
+
+    this.userService.searchUserByUsername(this.searchUsername).subscribe({
+      next: (response) => {
+        // Ensure we always have an array
+        this.filteredUsers = Array.isArray(response) ? response : [response];
+        console.log('Search results:', this.filteredUsers);
+      },
+      error: (err) => {
+        console.error('Search error:', err);
+        this.filteredUsers = [];
+      },
+    });
   }
 
-  resetBookForm() {
-    this.isEditing = false;
-    this.currentBookId = null;
-    this.newBook = {
-      title: '',
-      author: '',
-      description: '',
-      category: '',
-      coverImageUrl: '',
-      bookStatus: BookStatus.Available,
+  clearSearch() {
+    this.searchUsername = '';
+    this.filteredUsers = [...this.users];
+  }
+
+  createUser() {
+    this.userService.createUser(this.newUser).subscribe({
+      next: () => {
+        this.loadUsers();
+        this.showCreateUserForm = false;
+        this.resetNewUserForm();
+      },
+      error: (err) => console.error('Error creating user:', err),
+    });
+  }
+
+  cancelCreateUser() {
+    this.showCreateUserForm = false;
+    this.resetNewUserForm();
+  }
+
+  resetNewUserForm() {
+    this.newUser = {
+      username: '',
+      email: '',
+      password: '',
+      role: 'user',
     };
   }
 
@@ -105,5 +108,14 @@ export class AdminMainPage {
       next: () => this.loadUsers(),
       error: (err) => console.error('Error updating user role:', err),
     });
+  }
+
+  deleteUser(userId: string) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.userService.deleteUser(userId).subscribe({
+        next: () => this.loadUsers(),
+        error: (err) => console.error('Error deleting user:', err),
+      });
+    }
   }
 }
