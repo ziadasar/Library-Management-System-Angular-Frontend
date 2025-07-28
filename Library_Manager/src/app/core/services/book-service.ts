@@ -61,4 +61,22 @@ export class BookService {
         new Error(error.error?.message || error.message || 'Operation failed')
     );
   }
+
+  borrowBook(
+    bookId: number,
+    borrowDate: string,
+    dueDate: string
+  ): Observable<{ message: string }> {
+    const borrowData = {
+      bookId: bookId,
+      borrowDate: borrowDate,
+      dueDate: dueDate,
+    };
+
+    return this.http
+      .post(`${environment.apiBaseUrl}/BorrowRecords`, borrowData, {
+        responseType: 'text',
+      })
+      .pipe(map(this.handleResponse), catchError(this.handleError));
+  }
 }

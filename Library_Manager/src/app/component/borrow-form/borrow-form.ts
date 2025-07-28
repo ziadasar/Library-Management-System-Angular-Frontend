@@ -22,7 +22,7 @@ export class BorrowForm {
     this.close.emit();
   }
 
-  constructor(bookservice: BookService) {}
+  constructor(private bookservice: BookService) {}
 
   validateDates() {
     const today = new Date();
@@ -55,13 +55,22 @@ export class BorrowForm {
       return;
     }
 
-    const borrowData = {
-      book: this.book,
-      borrowDate: this.borrowDate,
-      returnDate: this.returnDate,
-    };
+    this.bookservice
+      .borrowBook(
+        this.book.id, // assuming your book object has an id
+        this.borrowDate,
+        this.returnDate
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('Borrow successful:', response);
 
-    console.log('Borrow data:', borrowData);
-    this.onClose();
+          this.onClose();
+        },
+        error: (error) => {
+          console.error('Borrow failed:', error);
+          this.dateError = error.message || 'Failed to borrow book';
+        },
+      });
   }
 }
