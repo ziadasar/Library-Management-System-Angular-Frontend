@@ -1,0 +1,31 @@
+<div class="borrow-form-overlay">
+    <div class="borrow-form-container">
+        <div class="borrow-form-header">
+            <h4>Borrow {{ book?.title }}</h4>
+            <button class="btn btn-close" (click)="onClose()"></button>
+        </div>
+
+        <form (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="borrowDate" class="form-label">Borrow Date</label>
+                <input type="date" class="form-control" id="borrowDate" [(ngModel)]="borrowDate" name="borrowDate"
+                    required (change)="validateDates()">
+            </div>
+
+            <div class="mb-3">
+                <label for="returnDate" class="form-label">Return Date</label>
+                <input type="date" class="form-control" id="returnDate" [(ngModel)]="returnDate" name="returnDate"
+                    required (change)="validateDates()">
+            </div>
+
+            <div *ngIf="dateError" class="alert alert-danger">
+                {{ dateError }}
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Confirm Borrow</button>
+            </div>
+        </form>
+    </div>
+</div>
